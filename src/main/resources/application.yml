@@ -5,7 +5,6 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/clients
 #    url: jdbc:postgresql://${POSTGRES_SQL_HOST}:${POSTGRES_SQL_PORT}/{POSTGRES_SQL_DB}
-#    url: jdbc:postgresql://${POSTGRES_SQL_HOST}:${POSTGRES_SQL_PORT}/{POSTGRES_SQL_DB}
     username: ${POSTGRES_SQL_USERNAME}
     password: ${POSTGRES_SQL_PASSWORD}
   jpa:
