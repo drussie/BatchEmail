@@ -3,6 +3,7 @@ package com.example.email.service.impl;
 import com.example.email.model.Client;
 import com.example.email.repository.ClientRepository;
 import com.example.email.service.ClientService;
+import com.example.email.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
+    private final EmailService emailService;
     @Override
     public Client saveClient(Client client) {
         if (!clientRepository.existsByEmailIgnoreCase(client.getEmail())) {
@@ -18,7 +20,7 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.save(client);
 
         // TODO send email to client
-
+        emailService.sendSimpleMailMessage(client.getFirstName(), client.getLastName(), client.getEmail(), null);
 
 
         return client;
