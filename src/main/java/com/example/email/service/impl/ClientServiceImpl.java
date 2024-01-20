@@ -8,21 +8,26 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final EmailService emailService;
+
+    public ClientServiceImpl(ClientRepository clientRepository, EmailService emailService) {
+        this.clientRepository = clientRepository;
+        this.emailService = emailService;
+    }
     @Override
     public Client saveClient(Client client) {
-        if (!clientRepository.existsByEmailIgnoreCase(client.getEmail())) {
+        if (clientRepository.existsByEmailIgnoreCase(client.getEmail())) {
             throw new RuntimeException("Client with email " + client.getEmail() + " already exists");
         }
-        clientRepository.save(client);
+        Client savedClient = clientRepository.save(client);
 
         // TODO send email to client
         emailService.sendSimpleMailMessage(client.getFirstName(), client.getLastName(), client.getEmail(), null);
 
 
-        return client;
+        return savedClient;
     }
 }

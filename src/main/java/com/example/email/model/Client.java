@@ -6,16 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
 @Data
 @Entity
-@Table(name = "clients")
+@Table(name = "clients", schema = "client_schema")
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     private String firstName;
     private String lastName;
