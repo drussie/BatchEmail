@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: ${ACTIVE_PROFILE:dev}
+    active: ${ACTIVE_PROFILE:test}
 
   datasource:
     url: jdbc:postgresql://localhost:5432/clients
