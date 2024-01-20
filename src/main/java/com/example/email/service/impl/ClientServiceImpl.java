@@ -25,7 +25,8 @@ public class ClientServiceImpl implements ClientService {
         Client savedClient = clientRepository.save(client);
 
         // TODO send email to client
-        emailService.sendSimpleMailMessage(client.getFirstName(), client.getLastName(), client.getEmail(), null);
+//        emailService.sendSimpleMailMessage(client.getFirstName(), client.getLastName(), client.getEmail(), null);
+        emailService.sendMimeMessageWithAttachment(client.getFirstName(), client.getLastName(), client.getEmail(), null);
 
         return savedClient;
     }
