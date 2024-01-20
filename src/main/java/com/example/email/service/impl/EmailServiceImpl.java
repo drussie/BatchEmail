@@ -72,21 +72,31 @@ public class EmailServiceImpl implements EmailService {
             System.out.println(exception.getMessage());
             throw new RuntimeException(exception.getMessage());
         }
-
     }
 
 
 
     @Override
     @Async
-    public void sendMimeMessageWithEmbeddedFiles(String name, String to, String body) {
-
-    }
-
-    @Override
-    @Async
-    public void sendMimeMessageWithEmbeddedImages(String name, String to, String body) {
-
+    public void sendMimeMessageWithEmbeddedFiles(String firstName, String lastName, String to, String body) {
+        try {
+            MimeMessage message = getMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, UTF_8_ENCODING);
+            helper.setPriority(1);
+            helper.setSubject(SUBJECT_THE_MANOR);
+            helper.setFrom(fromEmail);
+            helper.setTo(to);
+            helper.setText(getEmailMessage(firstName, lastName, host));
+            //Add attachment
+            FileSystemResource wenGirls = new FileSystemResource(new File("C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\WenGirls.jpg"));
+            FileSystemResource dogs = new FileSystemResource(new File("C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\Dogs.jpg"));
+            helper.addInline(getContentId(dogs.getFilename()), dogs);
+            helper.addInline(getContentId(wenGirls.getFilename()), wenGirls);
+            emailSender.send(message);
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            throw new RuntimeException(exception.getMessage());
+        }
     }
 
     @Override
@@ -103,5 +113,8 @@ public class EmailServiceImpl implements EmailService {
 
     private MimeMessage getMimeMessage() {
         return emailSender.createMimeMessage();
+    }
+    private String getContentId(String filename) {
+        return "<" + filename + ">";
     }
 }
