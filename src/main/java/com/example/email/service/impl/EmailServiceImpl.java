@@ -1,11 +1,14 @@
 package com.example.email.service.impl;
 
 import com.example.email.service.EmailService;
+import com.example.email.utils.EmailUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import static com.example.email.utils.EmailUtils.getEmailMessage;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +29,7 @@ public class EmailServiceImpl implements EmailService {
             message.setSubject(SUBJECT_THE_MANOR);
             message.setFrom(fromEmail);
             message.setTo(to);
-            message.setText("This is a test of the body.");
+            message.setText(getEmailMessage(firstName, lastName, host));
             emailSender.send(message);
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
