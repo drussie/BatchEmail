@@ -28,7 +28,8 @@ public class ClientServiceImpl implements ClientService {
 //        emailService.sendSimpleMailMessage(client.getFirstName(), client.getLastName(), client.getEmail(), null);
 //        emailService.sendMimeMessageWithAttachment(client.getFirstName(), client.getLastName(), client.getEmail(), null);
 //        emailService.sendMimeMessageWithEmbeddedFiles(client.getFirstName(), client.getLastName(), client.getEmail(), null);
-        emailService.sendHtmlEmail(client.getFirstName(), client.getLastName(), client.getEmail(), null);
+//        emailService.sendHtmlEmail(client.getFirstName(), client.getLastName(), client.getEmail(), null);
+        emailService.sendHtmlEmailWithEmbeddedFiles(client.getFirstName(), client.getLastName(), client.getEmail(), null);
 
         return savedClient;
     }
