@@ -1,7 +1,6 @@
 package com.example.email.service.impl;
 
 import com.example.email.service.EmailService;
-import com.example.email.utils.EmailUtils;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,10 +9,11 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
-
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import java.io.File;
+import java.util.Map;
 
 import static com.example.email.utils.EmailUtils.getEmailMessage;
 
@@ -21,13 +21,16 @@ import static com.example.email.utils.EmailUtils.getEmailMessage;
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
+//    public static final String EMAIL_TEMPLATE = "emailtemplate";
+    private final JavaMailSender emailSender;
+    private final TemplateEngine templateEngine;
     public static final String SUBJECT_THE_MANOR = "New tennis coach at The Manor Golf and Country Club";
     private static final String UTF_8_ENCODING = "UTF-8";
     @Value("${spring.mail.verify.host")
     private String host;
     @Value("${spring.mail.username")
     private String fromEmail;
-    private final JavaMailSender emailSender;
+
 
     @Override
     @Async
@@ -101,8 +104,27 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Async
-    public void sendHtmlEmail(String name, String to, String body) {
-
+    public void sendHtmlEmail(String firstName, String lastName, String to, String body) {
+        String name = firstName + " " + lastName + ",";
+        try {
+            Context context = new Context();
+//            context.setVariable("firstName", firstName);
+//            context.setVariable("lastName,\n", lastName);
+            context.setVariables(Map.of("firstName", firstName, "lastName", lastName));
+            context.setVariables(Map.of("name", name));
+            String text = templateEngine.process("emailtemplate", context);
+            MimeMessage message = getMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, UTF_8_ENCODING);
+            helper.setPriority(1);
+            helper.setSubject(SUBJECT_THE_MANOR);
+            helper.setFrom(fromEmail);
+            helper.setTo(to);
+            helper.setText(text, true);
+            emailSender.send(message);
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            throw new RuntimeException(exception.getMessage());
+        }
     }
 
     @Override
