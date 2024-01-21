@@ -140,12 +140,61 @@ public class EmailServiceImpl implements EmailService {
 
             helper.setText(text, true);
 
-            String imagePath = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\Dogs.jpg";
+            //Add image 1
+            String imagePath = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\dogs2.jpg";
             FileSystemResource file = new FileSystemResource(new File(imagePath));
             if(!file.exists()) {
                 throw new RuntimeException("File not found at path: " + imagePath);
             }
             helper.addInline("image", file, "image/jpeg");
+
+            //Add image 2
+            String imagePath2 = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\marcosMichaelChang.jpg";
+            FileSystemResource file2 = new FileSystemResource(new File(imagePath2));
+            if(!file.exists()) {
+                throw new RuntimeException("File not found at path: " + imagePath2);
+            }
+            helper.addInline("image2", file2, "image/jpeg");
+
+            //Add image 3
+            String imagePath3 = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\familyPicWinter.jpg";
+            FileSystemResource file3 = new FileSystemResource(new File(imagePath3));
+            if(!file.exists()) {
+                throw new RuntimeException("File not found at path: " + imagePath3);
+            }
+            helper.addInline("image3", file3, "image/jpeg");
+
+            //Add image 4
+            String imagePath4 = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\marcosTeaching.jpg";
+            FileSystemResource file4 = new FileSystemResource(new File(imagePath4));
+            if(!file.exists()) {
+                throw new RuntimeException("File not found at path: " + imagePath4);
+            }
+            helper.addInline("image4", file4, "image/jpeg");
+
+            //Add image 5
+            String imagePath5 = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\marcosDc2.jpg";
+            FileSystemResource file5 = new FileSystemResource(new File(imagePath5));
+            if(!file.exists()) {
+                throw new RuntimeException("File not found at path: " + imagePath5);
+            }
+            helper.addInline("image5", file5, "image/jpeg");
+
+            //Add image 6
+            String imagePath6 = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\family.jpg";
+            FileSystemResource file6 = new FileSystemResource(new File(imagePath6));
+            if(!file.exists()) {
+                throw new RuntimeException("File not found at path: " + imagePath6);
+            }
+            helper.addInline("image6", file6, "image/jpeg");
+
+            //Add image 7
+            String imagePath7 = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\helmets.jpg";
+            FileSystemResource file7 = new FileSystemResource(new File(imagePath7));
+            if(!file.exists()) {
+                throw new RuntimeException("File not found at path: " + imagePath7);
+            }
+            helper.addInline("image7", file7, "image/jpeg");
 
             emailSender.send(message);
         } catch (Exception exception) {
