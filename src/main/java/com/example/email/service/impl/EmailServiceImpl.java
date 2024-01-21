@@ -1,12 +1,7 @@
 package com.example.email.service.impl;
 
 import com.example.email.service.EmailService;
-import jakarta.activation.DataHandler;
-import jakarta.activation.FileDataSource;
-import jakarta.mail.BodyPart;
-import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.mail.internet.MimeMultipart;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -18,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.sql.DataSource;
 import java.io.File;
 import java.util.Map;
 
@@ -28,7 +22,6 @@ import static com.example.email.utils.EmailUtils.getEmailMessage;
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-//    public static final String EMAIL_TEMPLATE = "emailtemplate";
     private final JavaMailSender emailSender;
     private final TemplateEngine templateEngine;
     public static final String SUBJECT_THE_MANOR = "New tennis coach at The Manor Golf and Country Club";
@@ -69,12 +62,9 @@ public class EmailServiceImpl implements EmailService {
             helper.setTo(to);
             helper.setText(getEmailMessage(firstName, lastName, host));
             //Add attachment
-//            FileSystemResource tennis = new FileSystemResource(new File("src/main/resources/static/images/tennis.jpg"));
             FileSystemResource wenGirls = new FileSystemResource(new File("C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\WenGirls.jpg"));
             FileSystemResource dogs = new FileSystemResource(new File("C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\Dogs.jpg"));
-//            FileSystemResource dogs = new FileSystemResource(new File(System.getProperty("user.home") + "/Pictures/Dgs.jpg"));
-//            FileSystemResource wenGirls = new FileSystemResource(new File(System.getProperty("user.home") + "/Pictures/WenGirls.jpg"));
-//            helper.addAttachment(tennis.getFilename(), tennis);
+
             helper.addAttachment(dogs.getFilename(), dogs);
             helper.addAttachment(wenGirls.getFilename(), wenGirls);
             emailSender.send(message);
@@ -83,8 +73,6 @@ public class EmailServiceImpl implements EmailService {
             throw new RuntimeException(exception.getMessage());
         }
     }
-
-
 
     @Override
     @Async
@@ -150,20 +138,6 @@ public class EmailServiceImpl implements EmailService {
             context.setVariables(Map.of("name", name));
             String text = templateEngine.process("emailtemplate", context);
 
-            //Add HTML email body
-//            MimeMultipart mimeMultipart = new MimeMultipart("related");
-//            BodyPart messageBodyPart = new MimeBodyPart();
-//            messageBodyPart.setContent(text, "text/html");
-//            mimeMultipart.addBodyPart(messageBodyPart);
-//
-//            //Add images to the email body
-//            BodyPart imageBodyPart = new MimeBodyPart();
-//            DataSource dataSource = new FileDataSource("C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\Dogs.jpg");
-//            imageBodyPart.setDataHandler(new DataHandler(dataSource));
-//            imageBodyPart.setHeader("Content-ID", "image");
-//            mimeMultipart.addBodyPart(imageBodyPart);
-
-            //alt version
             helper.setText(text, true);
 
             String imagePath = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\Dogs.jpg";
@@ -173,7 +147,6 @@ public class EmailServiceImpl implements EmailService {
             }
             helper.addInline("image", file, "image/jpeg");
 
-//            message.setContent(mimeMultipart);
             emailSender.send(message);
         } catch (Exception exception) {
             System.out.println(exception.getMessage());

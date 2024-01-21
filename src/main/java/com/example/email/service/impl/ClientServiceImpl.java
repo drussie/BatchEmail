@@ -4,8 +4,8 @@ import com.example.email.model.Client;
 import com.example.email.repository.ClientRepository;
 import com.example.email.service.ClientService;
 import com.example.email.service.EmailService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 //@RequiredArgsConstructor
@@ -32,5 +32,18 @@ public class ClientServiceImpl implements ClientService {
         emailService.sendHtmlEmailWithEmbeddedFiles(client.getFirstName(), client.getLastName(), client.getEmail(), null);
 
         return savedClient;
+    }
+
+    @Override
+    public List<Client> getAllClients() {
+        return clientRepository.findAll();
+    }
+
+    @Override
+    public boolean sendEmailToClient(Client client) {
+        emailService.sendHtmlEmailWithEmbeddedFiles(client.getFirstName(), client.getLastName(), client.getEmail(), null);
+        client.setEmailSent(true);
+        clientRepository.save(client);
+        return true;
     }
 }

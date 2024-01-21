@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,6 +31,20 @@ public class ClientController {
                         .status(HttpStatus.CREATED)
                         .statusCode(HttpStatus.CREATED.value())
                         .data(Map.of("client", newClient))
+                        .build()
+        );
+    }
+
+    @PostMapping("/send-emails")
+    public ResponseEntity<HttpResponse> sendEmailsToAllClients() {
+        List<Client> clients = clientService.getAllClients();
+        clients.forEach(client ->
+                clientService.sendEmailToClient(client));
+        return ResponseEntity.ok(
+                HttpResponse.builder()
+                        .message("Emails sent successfully")
+                        .status(HttpStatus.OK)
+                        .statusCode(HttpStatus.OK.value())
                         .build()
         );
     }
