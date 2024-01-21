@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Custom Configuration Files ###
+# Ignore sensitive configuration files
+src/main/resources/application-dev.yml
+src/main/resources/application-test.yml
