@@ -1,0 +1,18 @@
+#Database
+POSTGRES_SQL_USERNAME: postgres
+POSTGRES_SQL_PASSWORD: password
+POSTGRES_SQL_DB: clients
+POSTGRES_SQL_HOST: localhost
+POSTGRES_SQL_PORT: 5432
+
+#Server
+SERVER_PORT: 8080
+ACTIVE_PROFILE: dev
+
+#Email Config
+EMAIL_HOST: smtp.gmail.com
+EMAIL_PORT: 587
+EMAIL_ADDRESS: marcosondruska@gmail.com
+EMAIL_PASSWORD: eweq xthr owsm yrmw
+#Must be app password for gmail
+VERIFY_EMAIL_HOST: http://localhost:${SERVER_PORT}
