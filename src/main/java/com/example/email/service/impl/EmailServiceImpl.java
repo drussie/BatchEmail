@@ -1,6 +1,7 @@
 package com.example.email.service.impl;
 
 import com.example.email.service.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,9 +14,10 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.Map;
-
 import static com.example.email.utils.EmailUtils.getEmailMessage;
 
 @Service
@@ -24,7 +26,7 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender emailSender;
     private final TemplateEngine templateEngine;
-    public static final String SUBJECT_THE_MANOR = "New tennis coach at The Manor Golf and Country Club";
+    public static final String SUBJECT_THE_MANOR = "Enhance Your Tennis Skills with Marcos Ondruska at The Manor Golf and Country Club";
     private static final String UTF_8_ENCODING = "UTF-8";
     @Value("${spring.mail.verify.host")
     private String host;
@@ -141,17 +143,17 @@ public class EmailServiceImpl implements EmailService {
             helper.setText(text, true);
 
             //Add image 1
-            String imagePath = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\dogs2.jpg";
-            FileSystemResource file = new FileSystemResource(new File(imagePath));
-            if(!file.exists()) {
-                throw new RuntimeException("File not found at path: " + imagePath);
-            }
-            helper.addInline("image", file, "image/jpeg");
+//            String imagePath = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\dogs2.jpg";
+//            FileSystemResource file = new FileSystemResource(new File(imagePath));
+//            if(!file.exists()) {
+//                throw new RuntimeException("File not found at path: " + imagePath);
+//            }
+//            helper.addInline("image", file, "image/jpeg");
 
             //Add image 2
             String imagePath2 = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\marcosMichaelChang.jpg";
             FileSystemResource file2 = new FileSystemResource(new File(imagePath2));
-            if(!file.exists()) {
+            if(!file2.exists()) {
                 throw new RuntimeException("File not found at path: " + imagePath2);
             }
             helper.addInline("image2", file2, "image/jpeg");
@@ -159,7 +161,7 @@ public class EmailServiceImpl implements EmailService {
             //Add image 3
             String imagePath3 = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\familyPicWinter.jpg";
             FileSystemResource file3 = new FileSystemResource(new File(imagePath3));
-            if(!file.exists()) {
+            if(!file3.exists()) {
                 throw new RuntimeException("File not found at path: " + imagePath3);
             }
             helper.addInline("image3", file3, "image/jpeg");
@@ -167,7 +169,7 @@ public class EmailServiceImpl implements EmailService {
             //Add image 4
             String imagePath4 = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\marcosTeaching.jpg";
             FileSystemResource file4 = new FileSystemResource(new File(imagePath4));
-            if(!file.exists()) {
+            if(!file4.exists()) {
                 throw new RuntimeException("File not found at path: " + imagePath4);
             }
             helper.addInline("image4", file4, "image/jpeg");
@@ -175,7 +177,7 @@ public class EmailServiceImpl implements EmailService {
             //Add image 5
             String imagePath5 = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\marcosDc2.jpg";
             FileSystemResource file5 = new FileSystemResource(new File(imagePath5));
-            if(!file.exists()) {
+            if(!file5.exists()) {
                 throw new RuntimeException("File not found at path: " + imagePath5);
             }
             helper.addInline("image5", file5, "image/jpeg");
@@ -183,7 +185,7 @@ public class EmailServiceImpl implements EmailService {
             //Add image 6
             String imagePath6 = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\family.jpg";
             FileSystemResource file6 = new FileSystemResource(new File(imagePath6));
-            if(!file.exists()) {
+            if(!file6.exists()) {
                 throw new RuntimeException("File not found at path: " + imagePath6);
             }
             helper.addInline("image6", file6, "image/jpeg");
@@ -191,16 +193,30 @@ public class EmailServiceImpl implements EmailService {
             //Add image 7
             String imagePath7 = "C:\\Users\\marco\\OneDrive\\Pictures\\Billy Wen Pics\\helmets.jpg";
             FileSystemResource file7 = new FileSystemResource(new File(imagePath7));
-            if(!file.exists()) {
+            if(!file7.exists()) {
                 throw new RuntimeException("File not found at path: " + imagePath7);
             }
             helper.addInline("image7", file7, "image/jpeg");
+
+            long emailSize = calculateEmailSize(message);
+            System.out.println("Email size: " + emailSize + " bytes");
+
+            if (emailSize > 5242880 && host.equals("smtp.mailtrap.io")) {
+                throw new RuntimeException("Email size exceeds maximum size for Mailtrap");
+            }
 
             emailSender.send(message);
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
             throw new RuntimeException(exception.getMessage());
         }
+    }
+
+    private long calculateEmailSize(MimeMessage message) throws MessagingException, IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        message.writeTo(outputStream);
+        byte[] messageBytes = outputStream.toByteArray();
+        return messageBytes.length;
     }
 
     private MimeMessage getMimeMessage() {
