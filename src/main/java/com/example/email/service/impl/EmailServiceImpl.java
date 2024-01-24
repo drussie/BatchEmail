@@ -4,6 +4,7 @@ import com.example.email.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,6 +23,7 @@ import static com.example.email.utils.EmailUtils.getEmailMessage;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender emailSender;
@@ -208,6 +210,7 @@ public class EmailServiceImpl implements EmailService {
             emailSender.send(message);
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
+            log.info(exception.getMessage() + " with client:" + firstName + " " + lastName + " with email: " + to);
             throw new RuntimeException(exception.getMessage());
         }
     }
