@@ -13,7 +13,7 @@ import java.util.UUID;
 @SuperBuilder
 @Data
 @Entity
-@Table(name = "clients", schema = "client_schema")
+@Table(name = "clients")
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
