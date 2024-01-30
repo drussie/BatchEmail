@@ -10,7 +10,6 @@ spring:
     url: jdbc:postgresql://${POSTGRES_SQL_HOST}:${POSTGRES_SQL_PORT}/${POSTGRES_SQL_DB}
     username: ${POSTGRES_SQL_USERNAME}
     password: ${POSTGRES_SQL_PASSWORD}
-
   jpa:
     generate-ddl: true
     show-sql: true
@@ -44,8 +43,5 @@ spring:
 
     verify:
       host: ${VERIFY_EMAIL_HOST}
-
-
-
 server:
   port: ${SERVER_PORT:8080}

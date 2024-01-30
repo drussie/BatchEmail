@@ -30,9 +30,9 @@ public class EmailServiceImpl implements EmailService {
     private final TemplateEngine templateEngine;
     public static final String SUBJECT_THE_MANOR = "Enhance Your Tennis Skills with Marcos Ondruska at The Manor Golf and Country Club";
     private static final String UTF_8_ENCODING = "UTF-8";
-    @Value("${spring.mail.verify.host")
+    @Value("${spring.mail.verify.host}")
     private String host;
-    @Value("${spring.mail.username")
+    @Value("${spring.mail.username}")
     private String fromEmail;
 
 
@@ -213,6 +213,10 @@ public class EmailServiceImpl implements EmailService {
             log.info(exception.getMessage() + " with client:" + firstName + " " + lastName + " with email: " + to);
             throw new RuntimeException(exception.getMessage());
         }
+    }
+
+    public void setFromEmail(String fromEmail) {
+        this.fromEmail = fromEmail;
     }
 
     private long calculateEmailSize(MimeMessage message) throws MessagingException, IOException {

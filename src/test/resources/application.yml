@@ -12,6 +12,8 @@ spring:
   h2:
     console:
       enabled: true # If you want to enable the H2 console
+# Additional configurations for the email service in the test environment
+  mail:
+    username: marcosondruska@gmail.com
+    password: eweq xthr owsm yrmw
 
-# Other configurations that are needed for testing
-# ...

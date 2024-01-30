@@ -13,7 +13,9 @@ import java.util.UUID;
 @SuperBuilder
 @Data
 @Entity
-@Table(name = "clients")
+@Table(name = "clients"
+        , schema = "client_schema"
+)
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
